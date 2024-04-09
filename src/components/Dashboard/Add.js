@@ -6,14 +6,14 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [age,setAge] = useState('');
-  const [city,setCity] = useState('');
+  const [location,setLocation] = useState('');
   const [salary, setSalary] = useState('');
   const [date, setDate] = useState('');
 
   const handleAdd = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !age || !city || !salary || !date) {
+    if (!firstName || !lastName || !email || !age || !location || !salary || !date) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -29,7 +29,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       lastName,
       email,
       age,
-      city,
+      location,
       salary,
       date,
     };
@@ -84,15 +84,27 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={age}
           onChange={e => setAge(e.target.value)}
         />
-        <label htmlFor="city">City</label>
+        {/* <label htmlFor="location">Location</label>
         <input
-          id="city"
+          id="location"
           type="text"
-          name="city"
-          value={city}
+          name="location"
+          value={location}
    
-          onChange={e => setCity(e.target.value)}
-        /> 
+          onChange={e => setLocation(e.target.value)}
+        />  */}
+        <label htmlFor="location">Location:</label>
+
+<select name="location" id="location" value={location}
+        onChange={e => setLocation(e.target.value)} >
+<option value="">Choose a Location</option>
+  <option value="Chennai">Chennai</option>
+  <option value="Bangalore">Bangalore</option>
+  <option value="Mumbai">Mumbai</option>
+  <option value="Kolkatta">kolkatta</option>
+  <option value="Noida">Noida</option>
+</select>
+
         <label htmlFor="salary">Salary ($)</label>
         <input
           id="salary"

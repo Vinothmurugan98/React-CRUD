@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
-  const id = selectedEmployee.id;
+const employeeAdd = ({ employees, setEmployees, setIsAdding }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age,setAge] = useState('');
+  const [education,setEducation] = useState('');
+  const [location,setLocation] = useState('');
+  const [salary, setSalary] = useState('');
+  const [date, setDate] = useState('');
 
-  const [firstName, setFirstName] = useState(selectedEmployee.firstName);
-  const [lastName, setLastName] = useState(selectedEmployee.lastName);
-  const [email, setEmail] = useState(selectedEmployee.email);
-  const [age, setAge] = useState(selectedEmployee.age);
-  const [location, setLocation] = useState(selectedEmployee.location);
-  const [salary, setSalary] = useState(selectedEmployee.salary);
-  const [date, setDate] = useState(selectedEmployee.date);
-
-  const handleUpdate = e => {
+  const handleAdd = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !age || !location || !salary || !date) {
+    if (!firstName || !lastName || !email || !age || !education || !location || !salary || !date) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -24,32 +23,28 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    const employee = {
+    const id = employees.length + 1;
+    const newEmployee = {
       id,
       firstName,
       lastName,
       email,
       age,
+      education,
       location,
       salary,
       date,
     };
 
-    for (let i = 0; i < employees.length; i++) {
-      if (employees[i].id === id) {
-        employees.splice(i, 1, employee);
-        break;
-      }
-    }
-
+    employees.push(newEmployee);
     localStorage.setItem('employees_data', JSON.stringify(employees));
     setEmployees(employees);
-    setIsEditing(false);
+    setIsAdding(false);
 
     Swal.fire({
       icon: 'success',
-      title: 'Updated!',
-      text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
+      title: 'Added!',
+      text: `${firstName} ${lastName}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
     });
@@ -57,8 +52,8 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
 
   return (
     <div className="small-container">
-      <form onSubmit={handleUpdate}>
-        <h1>Edit Employee</h1>
+      <form onSubmit={handleAdd}>
+        <h1>Add Employee</h1>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
@@ -97,9 +92,12 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           type="text"
           name="location"
           value={location}
+   
           onChange={e => setLocation(e.target.value)}
-        /> */}
-        <select name="location" id="location" value={location}
+        />  */}
+        <label htmlFor="location">Location:</label>
+
+<select name="location" id="location" value={location}
         onChange={e => setLocation(e.target.value)} >
 <option value="">Choose a Location</option>
   <option value="Chennai">Chennai</option>
@@ -108,6 +106,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   <option value="Kolkatta">kolkatta</option>
   <option value="Noida">Noida</option>
 </select>
+
         <label htmlFor="salary">Salary ($)</label>
         <input
           id="salary"
@@ -125,13 +124,13 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           onChange={e => setDate(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
-          <input type="submit" value="Update" />
+          <input type="submit" value="Add" />
           <input
             style={{ marginLeft: '12px' }}
             className="muted-button"
             type="button"
             value="Cancel"
-            onClick={() => setIsEditing(false)}
+            onClick={() => setIsAdding(false)}
           />
         </div>
       </form>
@@ -139,4 +138,4 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   );
 };
 
-export default Edit;
+export default employeeAdd;
